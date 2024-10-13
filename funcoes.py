@@ -44,7 +44,10 @@ def frequencia(efoton):
     return efoton/h*1.602E-19
 
 def velocidadeInicial(ni):
-    return 2.187E6*ni
+    return sqrt(2*ei(ni)/mp)
+
+def velocidadeFinal(nf):
+    return sqrt(2*ei(nf)/mp)
 
 print(funcOndaInicial(largura, ni))
 print(funcOndaFinal(largura, nf))
@@ -56,3 +59,4 @@ print(f'Energia do foton: {Decimal(efoton(ni, nf)):.3E} eV')
 print(f'Comprimento do foton: {Decimal(comprimento(efoton(ni, nf))):.3E} m')
 print(f'Frequencia do foton: {Decimal(frequencia(efoton(ni, nf))):.3E} Hz')
 print(f'Velocidade inicial: {Decimal(velocidadeInicial(ni)):.3E} m/s')
+print(f'Velocidade final: {Decimal(velocidadeFinal(nf)):.3E} m/s')
