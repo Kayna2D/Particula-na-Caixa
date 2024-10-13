@@ -45,7 +45,7 @@ def velocidade(n, m, largura):
 def deBroglie(m, v):
     return h/(m*v)
 
-def probabilidade(a, b, n, l): # Função para calcular a probabilidade
+def probabilidade(a, b, n, l): 
     integrand = lambda x: 2 / l * sin((n * pi * x) / l) ** 2
     result, _ = quad(integrand, a, b)
     return result
