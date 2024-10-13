@@ -37,6 +37,15 @@ def efoton(ni, nf):
         efoton = -efoton
     return efoton
 
+def comprimento(efoton):  
+    return h*c/efoton/1.602E-19  
+
+def frequencia(efoton):
+    return efoton/h*1.602E-19
+
+def velocidadeInicial(ni):
+    return 2.187E6*ni
+
 print(funcOndaInicial(largura, ni))
 print(funcOndaFinal(largura, nf))
 print(f'Energia inicial: {Decimal(ei(ni)):.3E} J')
@@ -44,3 +53,6 @@ print(f'Energia inicial: {Decimal(ei_ev(ni)):.3E} eV')
 print(f'Energia final: {Decimal(ef(nf)):.3E} J')
 print(f'Energia final: {Decimal(ef_ev(nf)):.3E} eV')
 print(f'Energia do foton: {Decimal(efoton(ni, nf)):.3E} eV')
+print(f'Comprimento do foton: {Decimal(comprimento(efoton(ni, nf))):.3E} m')
+print(f'Frequencia do foton: {Decimal(frequencia(efoton(ni, nf))):.3E} Hz')
+print(f'Velocidade inicial: {Decimal(velocidadeInicial(ni)):.3E} m/s')
