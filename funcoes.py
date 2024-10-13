@@ -1,5 +1,6 @@
 from math import *
 from  decimal import Decimal
+from scipy.integrate import quad
 
 h = 6.626E-34
 c = 3E8
@@ -44,6 +45,12 @@ def velocidade(n, m, largura):
 def deBroglie(m, v):
     return h/(m*v)
 
+def probabilidade(a, b, n, l): # Função para calcular a probabilidade
+    integrand = lambda x: 2 / l * sin((n * pi * x) / l) ** 2
+    result, _ = quad(integrand, a, b)
+    return result
+
+
 print(funcOndaInicial(largura, ni))
 print(funcOndaFinal(largura, nf))
 print(f'Energia inicial: {Decimal(en(ni, mp, largura)):.3E} J')
@@ -57,3 +64,5 @@ print(f'Velocidade inicial: {Decimal(velocidade(ni, mp, largura)):.3E} m/s')
 print(f'Velocidade final: {Decimal(velocidade(nf, mp, largura)):.3E} m/s')
 print(f'Comprimento  de onda de De Broglie inicial: {Decimal(deBroglie(mp, velocidade(ni, mp, largura))):.3E} m')
 print(f'Comprimento  de onda de De Broglie final: {Decimal(deBroglie(mp, velocidade(nf, mp, largura))):.3E} m')
+print(f'Probabilidade no nivel inicial: {probabilidade(a, b, ni, largura)*100:.2f} %')
+print(f'Probabilidade no nivel final: {probabilidade(a, b, nf, largura)*100:.2f} %')
