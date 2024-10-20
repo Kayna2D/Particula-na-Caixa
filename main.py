@@ -1,6 +1,8 @@
 from funcoes import *
 import tkinter as tk
 from tkinter import ttk, messagebox
+import matplotlib.pyplot as plt
+import numpy as np
 
 h = 6.626E-34
 c = 3E8
@@ -41,6 +43,48 @@ def calculo():
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos")
 
+def plotar():
+    try:
+        l = float(entry_largura.get())
+        ni = float(entry_ni.get())
+        nf = float(entry_nf.get())
+        
+        x_vals = np.linspace(0, l, 500)
+
+        fo_ni = funcaoOndaGraf(l, ni)
+        fo_nf = funcaoOndaGraf(l, nf)
+
+        prob_ni = probabilidadeGraf(ni, l)
+        prob_nf = probabilidadeGraf(nf, l)
+
+        fig, axs = plt.subplots(2, 2, figsize=(10, 6))
+
+        axs[0, 0].plot(x_vals, fo_ni(x_vals))
+        axs[0, 0].set_title(f'Função de onda (n={int(ni)})')
+        axs[0, 0].set_xlabel('x (m)')
+        axs[0, 0].set_ylabel('Ψ')
+
+        axs[0, 1].plot(x_vals, fo_nf(x_vals))
+        axs[0, 1].set_title(f'Função de onda (n={int(nf)})')
+        axs[0, 1].set_xlabel('x (m)')
+        axs[0, 1].set_ylabel('Ψ')
+
+        axs[1, 0].plot(x_vals, prob_ni(x_vals))
+        axs[1, 0].set_title(f'Distribução de Probabilidade (n={int(ni)})')
+        axs[1, 0].set_xlabel('x (m)')
+        axs[1, 0].set_ylabel('|Ψ|²')
+
+        axs[1, 1].plot(x_vals, prob_nf(x_vals))
+        axs[1, 1].set_title(f'Distribução de Probabilidade (n={int(nf)})')
+        axs[1, 1].set_xlabel('x (m)')
+        axs[1, 1].set_ylabel('$Ψ|²')
+
+        plt.tight_layout()
+        plt.show()
+
+    except ValueError:
+        messagebox.showerror("Erro", "Por favor, insira valores válidos")
+
 root = tk.Tk()
 root.title("Particula na Caixa")
 
@@ -74,7 +118,7 @@ tk.Radiobutton(root, text="Massa do próton", variable=var_massa, value="mp").gr
 tk.Radiobutton(root, text="Massa do elétron", variable=var_massa, value="me").grid(row=8, column=1)
 
 tk.Button(root, text="Calcular", command=calculo).grid(row=9, column=0, columnspan=2, padx=10, pady=10)
-tk.Button(root, text="Gráficos", command=0).grid(row=9, column=1, columnspan=2, pady=10)
+tk.Button(root, text="Gráficos", command=plotar).grid(row=9, column=1, columnspan=2, pady=10)
 tk.Button(root, text="Simulação", command=0).grid(row=10, column=0, columnspan=2, pady=10)
 tk.Button(root, text="Sobre", command=0).grid(row=10, column=1, columnspan=2, pady=10)
 
