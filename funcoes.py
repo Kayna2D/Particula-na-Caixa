@@ -1,6 +1,7 @@
 from math import *
 from  decimal import Decimal
 from scipy.integrate import quad
+import numpy as np
 
 h = 6.626E-34
 c = 3E8
@@ -43,3 +44,10 @@ def probabilidade(a, b, n, l):
     integrand = lambda x: 2 / l * sin((n * pi * x) / l) ** 2
     result, _ = quad(integrand, a, b)
     return result
+
+def funcaoOndaGraf(largura, n):
+    return lambda x: sqrt(2 / largura) * np.sin((n * pi * x) / largura)
+
+def probabilidadeGraf(n, l):
+    return lambda x: sqrt(2 / l) * np.sin((n * pi * x) / l) ** 2
+
