@@ -3,12 +3,15 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from matplotlib.animation import FuncAnimation
 
 h = 6.626E-34
 c = 3E8
 h_ev = 4.136E-15
 me = 9.11E-31
-mp = 1.67E-27
+mp = 1.67E-27 
+retorno = False 
 
 def calculo():
     try:
@@ -85,6 +88,82 @@ def plotar():
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos")
 
+def simular():
+    niveis_energia = np.array([1, 2, 3, 4, 5])
+    velocidades = {1: 0.05, 2: 0.1, 3: 0.15, 4: 0.2, 5: 0.25}
+    estado_atual = 1
+    estados = [estado_atual]
+    estado_final = np.random.randint(2, 6)
+    estados.append(estado_final)
+
+    while estado_final != 1:
+        proximo_salto = np.random.randint(1, estado_final)
+        estados.append(proximo_salto)
+        estado_final = proximo_salto
+
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, 2)
+    ax.set_ylim(0, 6)
+    ax.set_xticks([])
+    ax.set_yticks(niveis_energia)
+    ax.set_yticklabels([f'E{int(n)}' for n in niveis_energia])
+    ax.set_title("Simulação de Saltos Quânticos")
+
+    for nivel in niveis_energia:
+        ax.hlines(nivel, xmin=0, xmax=2, colors="gray", linestyles="dotted")
+
+    particula, = ax.plot(0.5, 1, 'ro', markersize=10)
+    foton_absorvido, = ax.plot([], [], 'bo', markersize=5)  
+    foton_emitido, = ax.plot([], [], 'bo', markersize=5)
+
+    frames_por_salto = 50
+    total_frames = (len(estados) - 1) * frames_por_salto
+    
+
+    def atualizar(frame):
+        
+        i = frame // frames_por_salto
+        progresso = (frame % frames_por_salto) / frames_por_salto
+
+        if i < len(estados) - 1:
+            nivel_inicial = estados[i]
+            nivel_final = estados[i + 1]
+
+            x_pos = 1 + 0.5 * np.sin(velocidades[nivel_inicial] * frame)
+            particula.set_xdata(x_pos)
+            particula.set_ydata(nivel_final if progresso == 0 else nivel_inicial)
+
+            if nivel_final > nivel_inicial:  
+                    if progresso == 0:
+                        foton_absorvido.set_data(0.2, nivel_inicial)
+                        foton_emitido.set_data([], [])
+                    elif progresso < 1.0:
+                        foton_x = 0.2 + (x_pos - 0.2) * progresso
+                        foton_absorvido.set_data(foton_x, nivel_inicial)
+                        foton_emitido.set_data([], [])
+                    else:
+                        foton_absorvido.set_data([], [])
+            
+            elif nivel_final < nivel_inicial:  
+                foton_absorvido.set_data([], [])
+                if i > 0 and i != 1:
+                    nivel_anterior = estados[i-1]
+                    if progresso == 0:
+                        foton_emitido.set_data(1.5, nivel_anterior)
+                    elif progresso < 1.0:
+                        foton_x = 1.5 + 0.5 * progresso
+                        foton_emitido.set_data(foton_x, nivel_anterior)  
+                    else:
+                        foton_emitido.set_data([], [])
+                else: 
+                    foton_emitido.set_data([], [])    
+        
+        return particula, foton_absorvido, foton_emitido
+
+    anim = FuncAnimation(fig, atualizar, frames=total_frames, interval=20, blit=True)
+    
+    plt.show()
+
 root = tk.Tk()
 root.title("Particula na Caixa")
 
@@ -119,7 +198,7 @@ tk.Radiobutton(root, text="Massa do elétron", variable=var_massa, value="me").g
 
 tk.Button(root, text="Calcular", command=calculo).grid(row=9, column=0, columnspan=2, padx=10, pady=10)
 tk.Button(root, text="Gráficos", command=plotar).grid(row=9, column=1, columnspan=2, pady=10)
-tk.Button(root, text="Simulação", command=0).grid(row=10, column=0, columnspan=2, pady=10)
+tk.Button(root, text="Simulação", command=simular).grid(row=10, column=0, columnspan=2, pady=20)
 tk.Button(root, text="Sobre", command=0).grid(row=10, column=1, columnspan=2, pady=10)
 
 
