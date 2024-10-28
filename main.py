@@ -165,6 +165,23 @@ def simular():
     
     plt.show()
 
+def sobre():
+    texto_sobre = (
+        "Partícula na Caixa\n\n"
+        "Autores: Kaynã de Deus / Mario Eugenio\n"
+        "Linguagem: Python\n\n"
+        "Bibliotecas:\n"
+        "math e numpy: Funções matemáticas\n"
+        "decimal: Formatação de números\n"
+        "scipy: Cálculo das integrais\n"
+        "tkinter: Interface gráfica\n"
+        "matplotlib: Desenvolvimento dos gráficos e simulação\n\n"
+        "Este programa permite que você explore propriedades quânticas de uma partícula confinada "
+        "em uma 'caixa de potencial'. Ele possui funcionalidades para cálculos de energia, funções de onda, "
+        "gráficos de probabilidade e uma simulação de saltos quânticos entre níveis de energia."
+    )
+    messagebox.showinfo("Sobre o Programa", texto_sobre)
+
 root = tk.Tk()
 root.title("Particula na Caixa")
 
@@ -200,7 +217,7 @@ tk.Radiobutton(root, text="Massa do elétron", variable=var_massa, value="me").g
 tk.Button(root, text="Calcular", command=calculo).grid(row=9, column=0, columnspan=2, padx=10, pady=10)
 tk.Button(root, text="Gráficos", command=plotar).grid(row=9, column=1, columnspan=2, pady=10)
 tk.Button(root, text="Simulação", command=simular).grid(row=10, column=0, columnspan=2, pady=20)
-tk.Button(root, text="Sobre", command=0).grid(row=10, column=1, columnspan=2, pady=10)
+tk.Button(root, text="Sobre", command=sobre).grid(row=10, column=1, columnspan=2, pady=10)
 
 
 root.mainloop()
