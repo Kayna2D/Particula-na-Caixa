@@ -1,13 +1,28 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
+import numpy as np
 
 def calcular():
-    # Implemente a lógica para mostrar os seguintes resultados na janela:
-    # Largura da caixa
-    # Nível quântico da partícula
-    # Probabilidade de encontrar a partícula na posição x
-    # Dica: dá uma olhada na função cálculo em main.py
-    return 0
+    try:
+        A = float(entry_a.get())
+        k = float(entry_k.get())
+        x = float(entry_x.get())
+
+        # Calcular a função de onda
+        psi_x = A * np.sin(k * x)
+        
+        # Calcular a probabilidade
+        probabilidade = abs(psi_x) ** 2
+
+        # Mostrar resultados
+        resultados = (
+            f'Função de onda (Ψ) em x={x:.4f} m: {psi_x:.4E}\n'
+            f'Probabilidade de encontrar a partícula em x={x:.4f} m: {probabilidade:.4E} (em unidades de m⁻¹)'
+        )
+        messagebox.showinfo("Resultados da Caixa 1D", resultados)
+
+    except ValueError:
+        messagebox.showerror("Erro", "Por favor, insira valores válidos")
 
 def caixa_1d(root):
     caixa_1d_window = tk.Toplevel(root)
@@ -39,3 +54,5 @@ def caixa_1d(root):
     entry_x.grid(row=6, column=1)
 
     tk.Button(caixa_1d_window, text="Calcular", command=calcular).grid(row=7, column=0, columnspan=2, pady=10)
+
+# O resto do seu código principal deve estar aqui
