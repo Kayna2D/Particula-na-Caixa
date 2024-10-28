@@ -106,7 +106,7 @@ def simular():
     ax.set_ylim(0, 6)
     ax.set_xticks([])
     ax.set_yticks(niveis_energia)
-    ax.set_yticklabels([f'E{int(n)}' for n in niveis_energia])
+    ax.set_yticklabels([f'{-13.6/n**2:.2f} E{int(n)}' for n in niveis_energia])
     ax.set_title("Simulação de Saltos Quânticos")
 
     for nivel in niveis_energia:
