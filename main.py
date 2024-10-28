@@ -116,7 +116,7 @@ def simular():
     foton_absorvido, = ax.plot([], [], 'bo', markersize=5)  
     foton_emitido, = ax.plot([], [], 'bo', markersize=5)
 
-    frames_por_salto = 50
+    frames_por_salto = 60
     total_frames = (len(estados) - 1) * frames_por_salto
     
 
@@ -146,12 +146,13 @@ def simular():
             
             elif nivel_final < nivel_inicial:  
                 foton_absorvido.set_data([], [])
-                if i > 0 and i != 1:
-                    nivel_anterior = estados[i-1]
-                    if progresso == 0:
-                        foton_emitido.set_data(1.5, nivel_anterior)
+                if i > 0:
+                    nivel_anterior = estados[i]
+                    if progresso < 0.7:
+                        foton_emitido.set_data([], [])
                     elif progresso < 1.0:
-                        foton_x = 1.5 + 0.5 * progresso
+                        progresso_foton = (progresso - 0.7) / 0.3
+                        foton_x = 1.5 + 0.5 * progresso_foton
                         foton_emitido.set_data(foton_x, nivel_anterior)  
                     else:
                         foton_emitido.set_data([], [])
