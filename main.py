@@ -1,4 +1,5 @@
 from funcoes import *
+from caixa_1d  import *
 import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
@@ -186,6 +187,8 @@ root = tk.Tk()
 root.title("Particula na Caixa")
 
 tk.Label(root, text="Partícula na Caixa", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+
+tk.Button(root, text="Caixa 1D", command=lambda: caixa_1d(root)).grid(row=11, column=0, columnspan=2, pady=10)
 
 tk.Label(root, text="Largura (m):").grid(row=1, column=0, padx=10, pady=5)
 entry_largura = tk.Entry(root)
