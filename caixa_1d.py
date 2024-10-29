@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 
-def calcular():
+def calcular(entry_a, entry_k, entry_x):
     try:
+
         A = float(entry_a.get())
         k = float(entry_k.get())
         x = float(entry_x.get())
@@ -53,6 +54,5 @@ def caixa_1d(root):
     entry_x = tk.Entry(caixa_1d_window)
     entry_x.grid(row=6, column=1)
 
-    tk.Button(caixa_1d_window, text="Calcular", command=calcular).grid(row=7, column=0, columnspan=2, pady=10)
+    tk.Button(caixa_1d_window, text="Calcular", command=lambda:calcular(entry_a, entry_k, entry_x)).grid(row=7, column=0, columnspan=2, pady=10)
 
-# O resto do seu código principal deve estar aqui
