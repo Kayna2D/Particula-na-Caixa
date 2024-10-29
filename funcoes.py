@@ -61,5 +61,3 @@ def prob_1d(l, n, x):
     n = int(Decimal(n))  
     return (sqrt(2 / l) * np.sin((n * pi * x) / l)) ** 2
 
-print(prob_1d(0.8345E-9, 1, 0))
-
