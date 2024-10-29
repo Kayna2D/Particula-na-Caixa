@@ -57,3 +57,7 @@ def largura(a):
 def nivel(l, k):
     return l*k/pi
 
+def prob_1d(l, n, x):
+    n = int(Decimal(n))  
+    return (sqrt(2 / l) * np.sin((n * pi * x) / l)) ** 2
+
