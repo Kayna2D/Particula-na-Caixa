@@ -54,3 +54,6 @@ def probabilidadeGraf(n, l):
 def largura(a):
     return 2 / a**2
 
+def nivel(l, k):
+    return l*k/pi
+

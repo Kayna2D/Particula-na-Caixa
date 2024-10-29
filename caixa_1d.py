@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import numpy as np
 from funcoes import *
+from decimal import Decimal
 
 def calcular(entry_a, entry_k, entry_x):
     try:
@@ -18,7 +19,8 @@ def calcular(entry_a, entry_k, entry_x):
 
         # Mostrar resultados
         resultados = []
-        resultados.append(f'Largura: {largura(A):.3E}\n')
+        resultados.append(f'Largura: {Decimal(largura(A)):.3E}\n')
+        resultados.append(f'Nível quântico: {int(Decimal(nivel(largura(A), k)))}\n')
         f'Probabilidade de encontrar a partícula em x={x:.4f} m: {probabilidade:.4E} (em unidades de m⁻¹)'
         
         messagebox.showinfo("Resultados da Caixa 1D", "\n".join(resultados))
