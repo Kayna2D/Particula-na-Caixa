@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import numpy as np
+from funcoes import *
 
 def calcular(entry_a, entry_k, entry_x):
     try:
@@ -16,11 +17,11 @@ def calcular(entry_a, entry_k, entry_x):
         probabilidade = abs(psi_x) ** 2
 
         # Mostrar resultados
-        resultados = (
-            f'Função de onda (Ψ) em x={x:.4f} m: {psi_x:.4E}\n'
-            f'Probabilidade de encontrar a partícula em x={x:.4f} m: {probabilidade:.4E} (em unidades de m⁻¹)'
-        )
-        messagebox.showinfo("Resultados da Caixa 1D", resultados)
+        resultados = []
+        resultados.append(f'Largura: {largura(A):.3E}\n')
+        f'Probabilidade de encontrar a partícula em x={x:.4f} m: {probabilidade:.4E} (em unidades de m⁻¹)'
+        
+        messagebox.showinfo("Resultados da Caixa 1D", "\n".join(resultados))
 
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos")

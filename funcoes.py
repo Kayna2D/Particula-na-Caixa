@@ -51,3 +51,6 @@ def funcaoOndaGraf(largura, n):
 def probabilidadeGraf(n, l):
     return lambda x: sqrt(2 / l) * np.sin((n * pi * x) / l) ** 2
 
+def largura(a):
+    return 2 / a**2
+
