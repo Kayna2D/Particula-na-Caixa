@@ -21,31 +21,37 @@ def calculo():
         nf = float(entry_nf.get())
         a = float(entry_a.get())
         b = float(entry_b.get())
-        if a > b:
-            messagebox.showerror("Erro", "O valor inicial deve ser menor ou igual ao valor final")
+        
         massa = mp if var_massa.get() == "mp" else me
+        if (a or b) <= largura and (a or b) >= 0:
+            resultados = []
+            resultados.append(funcOndaInicial(largura, ni))
+            resultados.append(funcOndaFinal(largura, nf))
+            resultados.append(f'Energia no nível inicial: {Decimal(en(ni, massa, largura)):.3E} J')
+            resultados.append(f'Energia no nível inicial: {Decimal(en_ev(ni, massa, largura)):.3E} eV')
+            resultados.append(f'Energia no nível final: {Decimal(en(nf, massa, largura)):.3E} J')
+            resultados.append(f'Energia no nível final: {Decimal(en_ev(nf, massa, largura)):.3E} eV')
+            resultados.append(f'Energia do fóton: {Decimal(efoton(ni, nf, massa, largura)):.3E} eV')
+            resultados.append(f'Comprimento do fóton: {Decimal(comprimento(efoton(ni, nf, massa, largura))):.3E} m')
+            resultados.append(f'Frequência do fóton: {Decimal(frequencia(efoton(ni, nf, massa, largura))):.3E} Hz')
+            resultados.append(f'Velocidade inicial do fóton: {Decimal(velocidade(ni, massa, largura)):.3E} m/s')
+            resultados.append(f'Velocidade final do fóton: {Decimal(velocidade(nf, massa, largura)):.3E} m/s')
+            resultados.append(f'Comprimento de onda de De Broglie inicial: {Decimal(deBroglie(massa, velocidade(ni, massa, largura))):.3E} m')
+            resultados.append(f'Comprimento de onda de De Broglie final: {Decimal(deBroglie(massa, velocidade(nf, massa, largura))):.3E} m')
+            resultados.append(f'Probabilidade no nível inicial: {probabilidade(a, b, ni, largura)*100:.2f} %')
+            resultados.append(f'Probabilidade no nível final: {probabilidade(a, b, nf, largura)*100:.2f} %')
 
-        resultados = []
-        resultados.append(funcOndaInicial(largura, ni))
-        resultados.append(funcOndaFinal(largura, nf))
-        resultados.append(f'Energia no nível inicial: {Decimal(en(ni, massa, largura)):.3E} J')
-        resultados.append(f'Energia no nível inicial: {Decimal(en_ev(ni, massa, largura)):.3E} eV')
-        resultados.append(f'Energia no nível final: {Decimal(en(nf, massa, largura)):.3E} J')
-        resultados.append(f'Energia no nível final: {Decimal(en_ev(nf, massa, largura)):.3E} eV')
-        resultados.append(f'Energia do fóton: {Decimal(efoton(ni, nf, massa, largura)):.3E} eV')
-        resultados.append(f'Comprimento do fóton: {Decimal(comprimento(efoton(ni, nf, massa, largura))):.3E} m')
-        resultados.append(f'Frequência do fóton: {Decimal(frequencia(efoton(ni, nf, massa, largura))):.3E} Hz')
-        resultados.append(f'Velocidade inicial do fóton: {Decimal(velocidade(ni, massa, largura)):.3E} m/s')
-        resultados.append(f'Velocidade final do fóton: {Decimal(velocidade(nf, massa, largura)):.3E} m/s')
-        resultados.append(f'Comprimento de onda de De Broglie inicial: {Decimal(deBroglie(massa, velocidade(ni, massa, largura))):.3E} m')
-        resultados.append(f'Comprimento de onda de De Broglie final: {Decimal(deBroglie(massa, velocidade(nf, massa, largura))):.3E} m')
-        resultados.append(f'Probabilidade no nível inicial: {probabilidade(a, b, ni, largura)*100:.2f} %')
-        resultados.append(f'Probabilidade no nível final: {probabilidade(a, b, nf, largura)*100:.2f} %')
+            messagebox.showinfo("Resultados", "\n".join(resultados))
 
-        messagebox.showinfo("Resultados", "\n".join(resultados))
+        else:
+            messagebox.showerror("Aviso", "O valor de a ou b deve ser entre 0 e a largura da caixa")
 
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos")
+    except a > b:
+        messagebox.showerror("Aviso", "O valor inicial deve ser menor ou igual ao valor final")
+    except (a or b) > largura or (a or b) < 0:
+        messagebox.showerror("Erro", "O valor de a ou b deve ser entre 0 e a largura da caixa")
 
 def plotar():
     try:
@@ -90,6 +96,9 @@ def plotar():
         messagebox.showerror("Erro", "Por favor, insira valores válidos")
 
 def simular():
+    largura = float(entry_largura.get())
+    massa = mp if var_massa.get() == "mp" else me
+
     niveis_energia = np.array([1, 2, 3, 4, 5])
     velocidades = {1: 0.05, 2: 0.1, 3: 0.15, 4: 0.2, 5: 0.25}
     estado_atual = 1
@@ -107,7 +116,7 @@ def simular():
     ax.set_ylim(0, 6)
     ax.set_xticks([])
     ax.set_yticks(niveis_energia)
-    ax.set_yticklabels([f'{-13.6/n**2:.2f} E{int(n)}' for n in niveis_energia])
+    ax.set_yticklabels([f'{Decimal(en_ev(n, massa, largura)):.3E} eV E{int(n)}' for n in niveis_energia])
     ax.set_title("Simulação de Saltos Quânticos")
 
     for nivel in niveis_energia:
