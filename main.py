@@ -48,10 +48,6 @@ def calculo():
 
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira valores válidos")
-    except a > b:
-        messagebox.showerror("Aviso", "O valor inicial deve ser menor ou igual ao valor final")
-    except (a or b) > largura or (a or b) < 0:
-        messagebox.showerror("Erro", "O valor de a ou b deve ser entre 0 e a largura da caixa")
 
 def plotar():
     try:
